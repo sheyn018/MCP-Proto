@@ -1,0 +1,182 @@
+<nav class="navbar">
+  <div class="nav-container">
+    <div class="nav-brand">
+      <a href="/" class="brand-link">{{BRAND}}</a>
+    </div>
+    
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+      <span class="hamburger"></span>
+      <span class="hamburger"></span>
+      <span class="hamburger"></span>
+    </button>
+    
+    <div class="nav-menu" id="navMenu">
+      {{LINKS}}
+    </div>
+  </div>
+</nav>
+
+<style>
+  .navbar {
+    background-color: #1f2937;
+    padding: 1rem 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+  }
+
+  .nav-brand .brand-link {
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+
+  .nav-brand .brand-link:hover {
+    color: #3b82f6;
+  }
+
+  .nav-menu {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+  }
+
+  .nav-link {
+    color: #d1d5db;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+    padding: 0.5rem 0;
+  }
+
+  .nav-link:hover {
+    color: #3b82f6;
+  }
+
+  .nav-toggle {
+    display: none;
+    flex-direction: column;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    z-index: 1000;
+  }
+
+  .hamburger {
+    width: 25px;
+    height: 3px;
+    background-color: white;
+    margin: 3px 0;
+    transition: all 0.3s ease;
+    border-radius: 2px;
+  }
+
+  /* Mobile styles */
+  @media (max-width: 768px) {
+    .nav-toggle {
+      display: flex;
+    }
+
+    .nav-menu {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 70%;
+      height: 100vh;
+      background-color: #1f2937;
+      flex-direction: column;
+      padding: 5rem 2rem 2rem;
+      gap: 1.5rem;
+      transition: right 0.3s ease;
+      box-shadow: -2px 0 8px rgba(0, 0, 0, 0.2);
+      align-items: flex-start;
+    }
+
+    .nav-menu.active {
+      right: 0;
+    }
+
+    .nav-link {
+      font-size: 1.2rem;
+      width: 100%;
+      padding: 0.75rem 0;
+      border-bottom: 1px solid #374151;
+    }
+
+    .nav-toggle.active .hamburger:nth-child(1) {
+      transform: rotate(-45deg) translate(-5px, 6px);
+    }
+
+    .nav-toggle.active .hamburger:nth-child(2) {
+      opacity: 0;
+    }
+
+    .nav-toggle.active .hamburger:nth-child(3) {
+      transform: rotate(45deg) translate(-5px, -6px);
+    }
+  }
+
+  /* Tablet styles */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    .nav-menu {
+      gap: 1.5rem;
+    }
+
+    .nav-link {
+      font-size: 0.95rem;
+    }
+  }
+
+  /* Desktop styles */
+  @media (min-width: 1025px) {
+    .nav-container {
+      padding: 0 2rem;
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const navToggle = document.getElementById('navToggle');
+    const navMenu = document.getElementById('navMenu');
+    
+    if (navToggle && navMenu) {
+      navToggle.addEventListener('click', function() {
+        navMenu.classList.toggle('active');
+        navToggle.classList.toggle('active');
+      });
+
+      // Close menu when clicking outside
+      document.addEventListener('click', function(event) {
+        const isClickInsideNav = navToggle.contains(event.target) || navMenu.contains(event.target);
+        if (!isClickInsideNav && navMenu.classList.contains('active')) {
+          navMenu.classList.remove('active');
+          navToggle.classList.remove('active');
+        }
+      });
+
+      // Close menu when clicking on a link
+      const navLinks = navMenu.querySelectorAll('.nav-link');
+      navLinks.forEach(link => {
+        link.addEventListener('click', function() {
+          if (window.innerWidth <= 768) {
+            navMenu.classList.remove('active');
+            navToggle.classList.remove('active');
+          }
+        });
+      });
+    }
+  });
+</script>
+

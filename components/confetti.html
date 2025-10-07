@@ -1,0 +1,113 @@
+<canvas id="confettiCanvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999;"></canvas>
+
+<style>
+  @keyframes confetti-fall {
+    to {
+      transform: translateY(100vh) rotate(360deg);
+    }
+  }
+</style>
+
+<script>
+  (function() {
+    const canvas = document.getElementById('confettiCanvas');
+    const ctx = canvas.getContext('2d');
+    
+    // Set canvas size
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    // Confetti particle class
+    class ConfettiPiece {
+      constructor() {
+        this.x = Math.random() * canvas.width;
+        this.y = -20;
+        this.w = Math.random() * 10 + 5;
+        this.h = Math.random() * 5 + 5;
+        this.opacity = 1;
+        this.color = this.randomColor();
+        this.rotation = Math.random() * 360;
+        this.rotationSpeed = Math.random() * 10 - 5;
+        this.speedY = Math.random() * 3 + 2;
+        this.speedX = Math.random() * 2 - 1;
+        this.gravity = 0.05;
+      }
+
+      randomColor() {
+        const colors = [
+          '#ff6b6b', '#4ecdc4', '#45b7d1', '#ffa07a', 
+          '#98d8c8', '#f7dc6f', '#bb8fce', '#85c1e2',
+          '#ff6384', '#36a2eb', '#ffce56', '#4bc0c0'
+        ];
+        return colors[Math.floor(Math.random() * colors.length)];
+      }
+
+      update() {
+        this.y += this.speedY;
+        this.x += this.speedX;
+        this.speedY += this.gravity;
+        this.rotation += this.rotationSpeed;
+        
+        // Fade out near the bottom
+        if (this.y > canvas.height - 100) {
+          this.opacity -= 0.02;
+        }
+      }
+
+      draw() {
+        ctx.save();
+        ctx.globalAlpha = this.opacity;
+        ctx.translate(this.x + this.w / 2, this.y + this.h / 2);
+        ctx.rotate(this.rotation * Math.PI / 180);
+        ctx.fillStyle = this.color;
+        ctx.fillRect(-this.w / 2, -this.h / 2, this.w, this.h);
+        ctx.restore();
+      }
+
+      isOffScreen() {
+        return this.y > canvas.height || this.opacity <= 0;
+      }
+    }
+
+    let confettiPieces = [];
+    let animationId = null;
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      
+      confettiPieces.forEach((piece, index) => {
+        piece.update();
+        piece.draw();
+        
+        if (piece.isOffScreen()) {
+          confettiPieces.splice(index, 1);
+        }
+      });
+
+      if (confettiPieces.length > 0) {
+        animationId = requestAnimationFrame(animate);
+      } else {
+        animationId = null;
+      }
+    }
+
+    // Function to trigger confetti
+    window.triggerConfetti = function(count = 150) {
+      for (let i = 0; i < count; i++) {
+        confettiPieces.push(new ConfettiPiece());
+      }
+      
+      if (!animationId) {
+        animate();
+      }
+    };
+
+    // Auto-trigger on page load (remove this if you only want manual triggers)
+    // window.triggerConfetti();
+  })();
+</script>
+

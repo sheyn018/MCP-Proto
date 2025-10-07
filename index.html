@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quick Snacks - Delicious Food Delivered Fast</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+    }
+
+    /* Hero Section */
+    .hero {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: calc(100vh - 80px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .hero-content {
+      max-width: 800px;
+      color: white;
+    }
+
+    .hero h1 {
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .hero p {
+      font-size: 1.5rem;
+      margin-bottom: 2rem;
+      opacity: 0.95;
+    }
+
+    .hero-subtitle {
+      font-size: 1.2rem;
+      margin-bottom: 2.5rem;
+      opacity: 0.9;
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2.5rem;
+      }
+
+      .hero p {
+        font-size: 1.2rem;
+      }
+
+      .hero-subtitle {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar Component from MCP Server -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-brand">
+        <a href="/" class="brand-link">Quick Snacks</a>
+      </div>
+      
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+        <span class="hamburger"></span>
+        <span class="hamburger"></span>
+        <span class="hamburger"></span>
+      </button>
+      
+      <div class="nav-menu" id="navMenu">
+        <a href="/" class="nav-link">Home</a>
+        <a href="/menu" class="nav-link">Menu</a>
+        <a href="/about" class="nav-link">About</a>
+        <a href="/contact" class="nav-link">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <style>
+    .navbar {
+      background-color: #1f2937;
+      padding: 1rem 0;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: relative;
+    }
+
+    .nav-brand .brand-link {
+      color: white;
+      font-size: 1.5rem;
+      font-weight: bold;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .nav-brand .brand-link:hover {
+      color: #3b82f6;
+    }
+
+    .nav-menu {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .nav-link {
+      color: #d1d5db;
+      text-decoration: none;
+      font-size: 1rem;
+      transition: color 0.3s ease;
+      padding: 0.5rem 0;
+    }
+
+    .nav-link:hover {
+      color: #3b82f6;
+    }
+
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.5rem;
+      z-index: 1000;
+    }
+
+    .hamburger {
+      width: 25px;
+      height: 3px;
+      background-color: white;
+      margin: 3px 0;
+      transition: all 0.3s ease;
+      border-radius: 2px;
+    }
+
+    /* Mobile styles */
+    @media (max-width: 768px) {
+      .nav-toggle {
+        display: flex;
+      }
+
+      .nav-menu {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 70%;
+        height: 100vh;
+        background-color: #1f2937;
+        flex-direction: column;
+        padding: 5rem 2rem 2rem;
+        gap: 1.5rem;
+        transition: right 0.3s ease;
+        box-shadow: -2px 0 8px rgba(0, 0, 0, 0.2);
+        align-items: flex-start;
+      }
+
+      .nav-menu.active {
+        right: 0;
+      }
+
+      .nav-link {
+        font-size: 1.2rem;
+        width: 100%;
+        padding: 0.75rem 0;
+        border-bottom: 1px solid #374151;
+      }
+
+      .nav-toggle.active .hamburger:nth-child(1) {
+        transform: rotate(-45deg) translate(-5px, 6px);
+      }
+
+      .nav-toggle.active .hamburger:nth-child(2) {
+        opacity: 0;
+      }
+
+      .nav-toggle.active .hamburger:nth-child(3) {
+        transform: rotate(45deg) translate(-5px, -6px);
+      }
+    }
+
+    /* Tablet styles */
+    @media (min-width: 769px) and (max-width: 1024px) {
+      .nav-menu {
+        gap: 1.5rem;
+      }
+
+      .nav-link {
+        font-size: 0.95rem;
+      }
+    }
+
+    /* Desktop styles */
+    @media (min-width: 1025px) {
+      .nav-container {
+        padding: 0 2rem;
+      }
+    }
+  </style>
+
+  <!-- Hero Section with Hello World from MCP Server -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Hello, World!</h1>
+      <p>Welcome to Quick Snacks</p>
+      <p class="hero-subtitle">Delicious food delivered fast to your doorstep. Fresh ingredients, bold flavors, and quick service - that's our promise!</p>
+      
+      <!-- Button Component from MCP Server -->
+      <button class="custom-button" id="orderBtn" onclick="triggerConfetti()">
+        Order Now
+      </button>
+    </div>
+  </section>
+
+  <style>
+    .custom-button {
+      background-color: #3b82f6;
+      color: white;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
+    }
+
+    .custom-button:hover {
+      background-color: #2563eb;
+      box-shadow: 0 4px 8px rgba(59, 130, 246, 0.3);
+      transform: translateY(-1px);
+    }
+
+    .custom-button:active {
+      background-color: #1d4ed8;
+      transform: translateY(0);
+      box-shadow: 0 2px 4px rgba(59, 130, 246, 0.2);
+    }
+  </style>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const navToggle = document.getElementById('navToggle');
+      const navMenu = document.getElementById('navMenu');
+      
+      if (navToggle && navMenu) {
+        navToggle.addEventListener('click', function() {
+          navMenu.classList.toggle('active');
+          navToggle.classList.toggle('active');
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(event) {
+          const isClickInsideNav = navToggle.contains(event.target) || navMenu.contains(event.target);
+          if (!isClickInsideNav && navMenu.classList.contains('active')) {
+            navMenu.classList.remove('active');
+            navToggle.classList.remove('active');
+          }
+        });
+
+        // Close menu when clicking on a link
+        const navLinks = navMenu.querySelectorAll('.nav-link');
+        navLinks.forEach(link => {
+          link.addEventListener('click', function() {
+            if (window.innerWidth <= 768) {
+              navMenu.classList.remove('active');
+              navToggle.classList.remove('active');
+            }
+          });
+        });
+      }
+    });
+  </script>
+
+  <!-- Confetti Component from MCP Server -->
+  <canvas id="confettiCanvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999;"></canvas>
+
+  <style>
+    @keyframes confetti-fall {
+      to {
+        transform: translateY(100vh) rotate(360deg);
+      }
+    }
+  </style>
+
+  <script>
+    (function() {
+      const canvas = document.getElementById('confettiCanvas');
+      const ctx = canvas.getContext('2d');
+      
+      // Set canvas size
+      function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }
+      resizeCanvas();
+      window.addEventListener('resize', resizeCanvas);
+
+      // Confetti particle class
+      class ConfettiPiece {
+        constructor() {
+          this.x = Math.random() * canvas.width;
+          this.y = -20;
+          this.w = Math.random() * 10 + 5;
+          this.h = Math.random() * 5 + 5;
+          this.opacity = 1;
+          this.color = this.randomColor();
+          this.rotation = Math.random() * 360;
+          this.rotationSpeed = Math.random() * 10 - 5;
+          this.speedY = Math.random() * 3 + 2;
+          this.speedX = Math.random() * 2 - 1;
+          this.gravity = 0.05;
+        }
+
+        randomColor() {
+          const colors = [
+            '#ff6b6b', '#4ecdc4', '#45b7d1', '#ffa07a', 
+            '#98d8c8', '#f7dc6f', '#bb8fce', '#85c1e2',
+            '#ff6384', '#36a2eb', '#ffce56', '#4bc0c0'
+          ];
+          return colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        update() {
+          this.y += this.speedY;
+          this.x += this.speedX;
+          this.speedY += this.gravity;
+          this.rotation += this.rotationSpeed;
+          
+          // Fade out near the bottom
+          if (this.y > canvas.height - 100) {
+            this.opacity -= 0.02;
+          }
+        }
+
+        draw() {
+          ctx.save();
+          ctx.globalAlpha = this.opacity;
+          ctx.translate(this.x + this.w / 2, this.y + this.h / 2);
+          ctx.rotate(this.rotation * Math.PI / 180);
+          ctx.fillStyle = this.color;
+          ctx.fillRect(-this.w / 2, -this.h / 2, this.w, this.h);
+          ctx.restore();
+        }
+
+        isOffScreen() {
+          return this.y > canvas.height || this.opacity <= 0;
+        }
+      }
+
+      let confettiPieces = [];
+      let animationId = null;
+
+      function animate() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        confettiPieces.forEach((piece, index) => {
+          piece.update();
+          piece.draw();
+          
+          if (piece.isOffScreen()) {
+            confettiPieces.splice(index, 1);
+          }
+        });
+
+        if (confettiPieces.length > 0) {
+          animationId = requestAnimationFrame(animate);
+        } else {
+          animationId = null;
+        }
+      }
+
+      // Function to trigger confetti
+      window.triggerConfetti = function(count = 150) {
+        for (let i = 0; i < count; i++) {
+          confettiPieces.push(new ConfettiPiece());
+        }
+        
+        if (!animationId) {
+          animate();
+        }
+      };
+
+      // Auto-trigger on page load (remove this if you only want manual triggers)
+      // window.triggerConfetti();
+    })();
+  </script>
+</body>
+</html>
