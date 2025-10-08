@@ -38,6 +38,20 @@ server.registerTool(
 
     // Tool function
     async ({ type, props = {} }) => {
+      const logFile = path.resolve(__dirname, "mcp-server.log");
+      const timestamp = new Date().toISOString();
+      
+      let logMessage = `\n[${timestamp}] === MCP REQUEST ===\n`;
+      logMessage += `Type: ${type}\n`;
+      logMessage += `Props: ${JSON.stringify(props, null, 2)}\n`;
+      logMessage += `===================\n`;
+      
+      fs.appendFileSync(logFile, logMessage);
+      console.log("=== MCP REQUEST ===");
+      console.log("Type:", type);
+      console.log("Props:", JSON.stringify(props, null, 2));
+      console.log("===================\n");
+      
       // Get the template path
       const templatePath = path.resolve(__dirname, "components", `${type}.html`);
       // Check if the template exists
@@ -57,12 +71,27 @@ server.registerTool(
         return (v !== undefined && v !== null) ? String(v) : `{{${key}}}`;
       });
   
-      return {
+      const response = {
         content: [
           { type: "text", text: tpl, mimeType: "text/html", name: `${type}.html` },
           { type: "text", text: "Insert the snippet into your target file at the requested location." }
         ]
       };
+      
+      const responseTimestamp = new Date().toISOString();
+      
+      let responseLog = `[${responseTimestamp}] === MCP RESPONSE ===\n`;
+      responseLog += `Response structure: ${JSON.stringify(response, null, 2)}\n`;
+      responseLog += `HTML length: ${tpl.length} characters\n`;
+      responseLog += `==================\n\n`;
+      
+      fs.appendFileSync(logFile, responseLog);
+      console.log("=== MCP RESPONSE ===");
+      console.log("Response structure:", JSON.stringify(response, null, 2));
+      console.log("HTML length:", tpl.length, "characters");
+      console.log("==================\n");
+      
+      return response;
     }
 );
 
